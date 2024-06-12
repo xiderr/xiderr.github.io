@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>xiderr</title>
+  
+  <subtitle>个人作品集</subtitle>
+  <link href="https://xiderr.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://xiderr.github.io/"/>
+  <updated>2024-06-12T14:06:28.488Z</updated>
+  <id>https://xiderr.github.io/</id>
+  
+  <author>
+    <name>xiderr</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>o(≧v≦)o</title>
+    <link href="https://xiderr.github.io/o-%E2%89%A7v%E2%89%A6-o/2024/06/12/"/>
+    <id>https://xiderr.github.io/o-%E2%89%A7v%E2%89%A6-o/2024/06/12/</id>
+    <published>2024-06-12T14:06:28.000Z</published>
+    <updated>2024-06-12T14:06:28.488Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>(●°u°●)​</title>
+    <link href="https://xiderr.github.io/%E2%97%8F%C2%B0u%C2%B0%E2%97%8F/2024/06/12/"/>
+    <id>https://xiderr.github.io/%E2%97%8F%C2%B0u%C2%B0%E2%97%8F/2024/06/12/</id>
+    <published>2024-06-12T14:05:30.467Z</published>
+    <updated>2024-06-12T14:39:28.863Z</updated>
+    
+    
+    
+    
+    
+    <category term="a" scheme="https://xiderr.github.io/tags/a/"/>
+    
+    <category term="k" scheme="https://xiderr.github.io/tags/k/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>(=^ェ^=)</title>
+    <link href="https://xiderr.github.io/%E3%82%A7/2024/06/12/"/>
+    <id>https://xiderr.github.io/%E3%82%A7/2024/06/12/</id>
+    <published>2024-06-12T14:04:37.000Z</published>
+    <updated>2024-06-12T14:04:37.197Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>HHHHH</title>
+    <link href="https://xiderr.github.io/HHHHH/2024/06/12/"/>
+    <id>https://xiderr.github.io/HHHHH/2024/06/12/</id>
+    <published>2024-06-12T11:30:51.000Z</published>
+    <updated>2024-06-12T11:30:51.880Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+</feed>
