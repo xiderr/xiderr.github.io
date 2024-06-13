@@ -2,36 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://xiderr.github.io/%E2%97%8F%C2%B0u%C2%B0%E2%97%8F/2024/06/12/</loc>
+    <loc>https://xiderr.github.io/%E2%97%8F%C2%B0u%C2%B0%E2%97%8F/2024/06/13/</loc>
     
-    <lastmod>2024-06-12</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://xiderr.github.io/o-%E2%89%A7v%E2%89%A6-o/2024/06/12/</loc>
-    
-    <lastmod>2024-06-12</lastmod>
+    <lastmod>2024-06-13</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://xiderr.github.io/%E3%82%A7/2024/06/12/</loc>
+    <loc>https://xiderr.github.io/R/2024/06/13/</loc>
     
-    <lastmod>2024-06-12</lastmod>
+    <lastmod>2024-06-13</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://xiderr.github.io/HHHHH/2024/06/12/</loc>
+    <loc>https://xiderr.github.io/X/2024/06/13/</loc>
     
-    <lastmod>2024-06-12</lastmod>
+    <lastmod>2024-06-13</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -40,7 +31,7 @@
 
   <url>
     <loc>https://xiderr.github.io/</loc>
-    <lastmod>2024-06-12</lastmod>
+    <lastmod>2024-06-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -48,14 +39,35 @@
   
   <url>
     <loc>https://xiderr.github.io/tags/a/</loc>
-    <lastmod>2024-06-12</lastmod>
+    <lastmod>2024-06-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://xiderr.github.io/tags/k/</loc>
-    <lastmod>2024-06-12</lastmod>
+    <lastmod>2024-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://xiderr.github.io/tags/%E6%8F%92%E7%94%BB/</loc>
+    <lastmod>2024-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://xiderr.github.io/tags/%E7%BA%B9%E6%A0%B7/</loc>
+    <lastmod>2024-06-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://xiderr.github.io/tags/%E5%8D%B0%E8%8A%B1/</loc>
+    <lastmod>2024-06-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
