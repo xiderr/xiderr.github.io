@@ -370,3 +370,46 @@
   gap: 15px;
   margin: 2rem 0;
 }
+
+
+.tag-cloud {
+  padding: 10px;
+  margin-top: 20px;
+}
+.tag {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  background: #f0f0f0;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.tag:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .tag-cloud {
+    max-height: 150px;
+    overflow-y: auto;
+  }
+}
+
+/* 分割线 */
+.divider {
+  width: 80%;
+  height: 1px;
+  background: #ddd;
+  margin: 15px auto;
+}
+
+/* 邮箱文本 */
+.email-text {
+  color: var(--secondary-color);
+  font-size: 14px;
+  text-align: center;
+  padding: 10px 0;
+  font-family: 'MaokenZhunjunHei', sans-serif;
+}
