@@ -57,8 +57,9 @@
 }
 
 .social-links {
-  margin-top: 20px;
-  padding-top: 20px;
+  order: 2;
+  margin-top: 0px;
+  padding-top: 0px;
   padding: 5px 0;
   border-top: 2px solid #ddd;
   opacity: 1 !important;
@@ -119,27 +120,22 @@
 /* 统一边距 */
 .menu,
 .social-links,
-.email-container {
-  margin: 15px 0; /* 上下边距统一 */
+.email-text {
+  margin: 20px 0; /* 上下边距统一 */
   width: 90%; /* 占满容器宽度 */
 }
 
 
 .menu > a {
   display: block;
-  font-size: 20px !important;
+  font-size: 25px !important;
   letter-spacing: 2px;
   padding-bottom: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   border-bottom: 2px solid #ddd; 
 }
 
-/* 社交链接容器 */
-.social-links {
-  order: 2;
-}
-
-
+ 
 /* 导航链接加粗 */
 .sidebar a {
   font-weight: bold !important; /* 强制覆盖其他样式 */
@@ -149,12 +145,16 @@
   color: #455e7a;
 }
 
+
+
 .tags {
-  margin-top: 15px;
-  padding-bottom: 15px;
-  margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  margin-bottom: 0px;/* 控制标签容器底部的外边距，数值越大间距越大 */
   gap: 5px;
 }
+
 
 .sidebar a:hover {
   color: #e087e3; /* 悬停颜色 */
@@ -186,7 +186,7 @@
   flex: 1 1 calc(30% - 8px); /* 基础宽度25%，允许压缩拉伸 */
   min-width: 200px; /* 最小宽度 */
   max-width: 300px; /* 最大宽度 */
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.0rem;
   position: relative;
   margin: 5px;
   transform: rotate(0deg); /* 初始无旋转 */
@@ -296,7 +296,6 @@
 
 .menu {
   order: -1;
-  margin-bottom: 20px !important;
   position: relative;
 }
 
@@ -327,7 +326,7 @@
   }
 
   .tags {
-    gap: 6px;
+    gap: 5px;
   }
   
   .masonry {
@@ -431,11 +430,6 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
 
 
 
@@ -451,10 +445,9 @@
 .email-text {
   order: 3; 
   text-align: left;
-  margin-top: 20px;
   padding-top: 20px;
   border-top: 2px solid #ddd;
-  font-size: 20px;
+  font-size: 15px;
   color: #455e7a;
   font-weight: bold !important;
 }
