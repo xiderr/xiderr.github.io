@@ -183,6 +183,55 @@ function loadPage(page, tag) {
   renderPhotos(photos);
 }
 
+// main.js 新增分页逻辑
+let currentPage = 1;
+const perPage = 9;
+
+function initPagination() {
+  // 初始化分页按钮
+  const total = window.allPhotos.length;
+  const pageCount = Math.ceil(total / perPage);
+  
+  // 清空旧分页
+  const pagination = document.querySelector('.pagination');
+  if(pagination) pagination.remove();
+
+  // 生成新分页
+  let html = `<div class="pagination">`;
+  for(let i=1; i<=pageCount; i++){
+    html += `<a class="pagination-btn ${i===1?'active':''}" 
+              onclick="changePage(${i})">${i}</a>`;
+  }
+  html += `</div>`;
+  
+  document.querySelector('.content').insertAdjacentHTML('beforeend', html);
+}
+
+function changePage(page) {
+  currentPage = page;
+  const start = (page-1)*perPage;
+  const end = start + perPage;
+  
+  // 更新图片显示
+  const masonry = document.querySelector('.masonry');
+  masonry.innerHTML = window.allPhotos
+    .slice(start, end)
+    .map(photo => `
+      <div class="masonry-item">
+        <img src="${photo.path}" alt="${photo.tags.join(', ')}">
+      </div>
+    `).join('');
+  
+  // 更新按钮状态
+  document.querySelectorAll('.pagination-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if(btn.textContent == page) btn.classList.add('active');
+  });
+}
+
+// 初始化时调用
+document.addEventListener('DOMContentLoaded', initPagination);
+
 
 // main.js
 const allPhotos = JSON.parse('<%- JSON.stringify(site.data.photos) %>');
