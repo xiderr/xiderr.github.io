@@ -1,26 +1,91 @@
 document.addEventListener('DOMContentLoaded', function() {
-  new Masonry('.masonry', {
+  // 初始化 Masonry
+  window.masonryInstance = new Masonry('.masonry', {
     itemSelector: '.masonry-item',
     columnWidth: 300,
     gutter: 20
   });
-});
 
-// 在 Masonry 初始化后添加
-document.addEventListener('DOMContentLoaded', function() {
+  // 图片懒加载
   const lazyImages = document.querySelectorAll('.masonry-item img');
-  
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const img = entry.target;
-        img.src = img.dataset.src; // 从 data-src 加载真实图片
+        img.src = img.dataset.src;
         observer.unobserve(img);
+        // 图片加载完成后强制刷新布局
+        img.onload = () => {
+          window.masonryInstance.reloadItems();
+          window.masonryInstance.layout();
+        };
       }
     });
   });
-
   lazyImages.forEach(img => observer.observe(img));
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 标签点击事件
+  document.querySelectorAll('.tag').forEach(tag => {
+    tag.addEventListener('click', function() {
+      const selectedTag = this.dataset.tag;
+      filterPhotos(selectedTag);
+    });
+  });
+
+  // 图片筛选函数
+  function filterPhotos(tag) {
+    const masonry = document.querySelector('.masonry');
+    masonry.innerHTML = ''; // 清空当前内容
+
+    window.allPhotos
+      .filter(photo => photo.tags.includes(tag))
+      .slice(0, 9) // 显示前9张
+      .forEach(photo => {
+        masonry.innerHTML += `
+          <div class="masonry-item">
+            <img src="${photo.path}" alt="${photo.tags.join(', ')}">
+          </div>
+        `;
+      });
+
+    // 重新初始化lightGallery
+    lightGallery(masonry, { selector: '.masonry-item img' });
+  }
+});
+
+
+// 点击标签事件
+document.querySelectorAll('.tag').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const selectedTag = this.dataset.tag;
+    filterPhotosByTag(selectedTag);
+  });
+});
+
+function filterPhotosByTag(tag) {
+  // 1. 请求该标签下所有图片（按时间倒序）
+  fetch(`/api/photos?tag=${tag}`)
+    .then(res => res.json())
+    .then(photos => {
+      // 2. 渲染图片
+      renderPhotos(photos.slice(0, 9)); 
+      // 3. 分页逻辑（超过9张显示页码）
+      if (photos.length > 9) {
+        renderPagination(photos.length);
+      }
+    });
+}
+
+// 在 Hexo 生成时全局注入标签数据
+hexo.extend.filter.register('template_locals', function(locals) {
+  const photos = hexo.locals.get('data').photos;
+  const tags = new Set();
+  photos.forEach(photo => photo.tags.forEach(tag => tags.add(tag)));
+  locals.allTags = Array.from(tags);
+  return locals;
 });
 
 // 在 initTagCloud 函数后添加
@@ -73,28 +138,51 @@ function generateTagCloud() {
   `).join('');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  // 初始化 Masonry
-  window.masonryInstance = new Masonry('.masonry', {
-    itemSelector: '.masonry-item',
-    columnWidth: 300,
-    gutter: 20
-  });
 
-  // 图片懒加载
-  const lazyImages = document.querySelectorAll('.masonry-item img');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        observer.unobserve(img);
-        // 图片加载完成后刷新布局
-        img.onload = () => {
-          window.masonryInstance.layout();
-        };
-      }
-    });
-  });
-  lazyImages.forEach(img => observer.observe(img));
-});
+
+function renderPagination(total) {
+  const pages = Math.ceil(total / 9);
+  let html = '<div class="pagination">';
+  for (let i = 1; i <= pages; i++) {
+    html += `<a href="?page=${i}">${i}</a>`;
+  }
+  html += '</div>';
+  document.querySelector('.content').innerHTML += html;
+}
+
+// main.js
+function filterPhotosByTag(tag) {
+  const filteredPhotos = window.allPhotos.filter(photo => 
+    photo.tags.includes(tag)
+  ).sort((a, b) => new Date(b.date) - new Date(a.date)); // 按时间倒序
+
+  // 渲染前9张
+  renderPhotos(filteredPhotos.slice(0, 9));
+
+  // 分页逻辑
+  if (filteredPhotos.length > 9) {
+    renderPagination(filteredPhotos.length, tag);
+  }
+}
+
+function renderPagination(total, tag) {
+  const pages = Math.ceil(total / 9);
+  let html = '<div class="pagination">';
+  for (let i = 1; i <= pages; i++) {
+    html += `<a href="javascript:void(0)" onclick="loadPage(${i}, '${tag}')">${i}</a>`;
+  }
+  html += '</div>';
+  document.querySelector('.content').innerHTML += html;
+}
+
+function loadPage(page, tag) {
+  const start = (page - 1) * 9;
+  const photos = allPhotos.filter(photo => 
+    tag ? photo.tags.includes(tag) : true
+  ).slice(start, start + 9);
+  renderPhotos(photos);
+}
+
+
+// main.js
+const allPhotos = JSON.parse('<%- JSON.stringify(site.data.photos) %>');
