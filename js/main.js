@@ -25,35 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
   lazyImages.forEach(img => observer.observe(img));
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
-  // 标签点击事件
-  document.querySelectorAll('.tag').forEach(tag => {
-    tag.addEventListener('click', function() {
-      const selectedTag = this.dataset.tag;
-      filterPhotos(selectedTag);
-    });
+  initPagination();
+  lightGallery(document.querySelector('.masonry'), {
+    selector: '.masonry-item img'
   });
-
-  // 图片筛选函数
-  function filterPhotos(tag) {
-    const masonry = document.querySelector('.masonry');
-    masonry.innerHTML = ''; // 清空当前内容
-
-    window.allPhotos
-      .filter(photo => photo.tags.includes(tag))
-      .slice(0, 9) // 显示前9张
-      .forEach(photo => {
-        masonry.innerHTML += `
-          <div class="masonry-item">
-            <img src="${photo.path}" alt="${photo.tags.join(', ')}">
-          </div>
-        `;
-      });
-
-    // 重新初始化lightGallery
-    lightGallery(masonry, { selector: '.masonry-item img' });
-  }
 });
 
 
