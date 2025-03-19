@@ -124,6 +124,17 @@
   width: 80%; /* 占满容器宽度 */
 }
 
+@media (max-width: 768px) {
+  .masonry {
+    columns: 1 !important;
+    padding: 0 15px; /* 缩小两侧空白 */
+  }
+  
+  .masonry-item img {
+    max-height: none; /* 解除高度限制 */
+  }
+}
+
 /* 移动端适配 */
 @media (max-width: 768px) {
   .sidebar {
@@ -144,7 +155,7 @@
   letter-spacing: 2px;
   padding-bottom: 15px;
   margin-bottom: 15px;
-  border-bottom: 2px solid #e087e3; /* 添加下划线 */
+  border-bottom: 1px solid #ddd; /* 添加下划线 */
 }
 
 /* 社交链接容器 */
@@ -188,10 +199,12 @@
 /* 自由错位布局 */
 .masonry {
   display: flex;
+  columns: 4 500px; /* 增加列数 */
   flex-wrap: wrap;
-  padding: 15px;
+  padding: 10px;
   gap: 10px;
 }
+
 
 .masonry-item {
   flex: 1 1 calc(30% - 8px); /* 基础宽度25%，允许压缩拉伸 */
@@ -203,11 +216,7 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.masonry {
-  columns: 3 300px;
-  column-gap: 1rem;
-  margin-left: 300px; /* 侧边栏宽度补偿 */
-}
+
 
 .masonry-item {
   break-inside: avoid;
@@ -217,7 +226,8 @@
 .masonry-item img {
   width: 100%;
   height: auto;
-  border-radius: 4px;
+  max-height: 600px; /* 限制图片最大高度 */
+  object-fit: contain; /* 自适应比例 */
 }
 
 
@@ -414,7 +424,6 @@
   padding: 8px 15px;
   margin: 5px;
   background: #f8f9fa;
-  border: 1px solid #e087e3;
   border-radius: 20px;
   color: #455e7a;
   transition: all 0.3s;
@@ -445,7 +454,7 @@
 
 /* 分割线 */
 .divider {
-  width: 80%;
+  width: 100%;
   height: 1px;
   background: #ddd;
   margin: 15px auto;
@@ -453,10 +462,12 @@
 
 
 .email-text {
-  margin-top: auto; /* 关键属性 */
+  order: 3; 
+  text-align: left;
+  padding: 20px 0 0;
+  margin-top: 25px;
   padding: 20px 0;
-  text-align: center;
   border-top: 1px solid #eee;
   font-size: 14px;
-  color: #666;
+  color: #455e7a;
 }
