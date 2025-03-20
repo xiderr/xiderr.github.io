@@ -207,6 +207,12 @@
   position: relative;
 }
 
+@media (min-width: 769px) and (max-width: 1024px) {
+  .masonry {
+    columns: 2 350px !important;
+  }
+}
+
 @keyframes fadeIn {
   from { 
     opacity: 0;
@@ -220,9 +226,9 @@
 
 .masonry-item img {
   width: 100%;
-  height: 100%;
+  height: auto !important; /* 强制保持原始高度 */
   border: none !important;           /* 移除边框 */
-  object-fit: cover;
+  object-fit: contain !important;
   padding: 0 !important;             /* 删除内边距 */
   background: transparent !important; /* 删除默认背景色 */
   transform: translateZ(0); /* 修复移动端闪烁 */
@@ -319,14 +325,13 @@
 }
 
 
-
 @media (max-width: 768px) {
   .sidebar {
     width: 100% !important;
-    position: static !important;
+    position: relative !important;
     height: auto !important;
     box-shadow: none;
-    padding: 20px 15px !important;
+    padding: 15px !important;
   }
 
   /* 折叠状态默认隐藏 */
@@ -375,8 +380,9 @@
   }
 
   .content {
+    width: 100% !important;
     margin-left: 0 !important;
-    padding: 20px 10px !important;
+    padding: 10px !important;
   }
 
   .tag-cloud {

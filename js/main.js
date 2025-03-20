@@ -112,13 +112,7 @@ function renderPhotos(photos) {
   }, 100);
 }
 
-// main.js
-// 移动端折叠逻辑
-document.querySelector('.toggle-sidebar').addEventListener('click', function() {
-  if (window.innerWidth <= 768) {
-    document.querySelector('.sidebar').classList.toggle('expanded');
-  }
-});
+
 
 // 窗口大小变化时自动折叠
 window.addEventListener('resize', function() {
