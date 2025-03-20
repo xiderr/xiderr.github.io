@@ -325,7 +325,7 @@
 }
 
 
-@media (max-width: 768px) {
+    {
   .sidebar {
     width: 100% !important;
     position: relative !important;
@@ -348,61 +348,6 @@
     display: block;
   }
 
-/* 点击遮罩层关闭侧边栏 */
-@media (max-width: 768px) {
-  .sidebar.expanded::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.3);
-    z-index: 99;
-  }
-}
-
-  /* 菜单标题添加折叠图标 */
-  .menu > a::after {
-    content: "▼";
-    margin-left: 10px;
-    font-size: 14px;
-    transition: transform 0.3s;
-  }
-
-  .sidebar.expanded .menu > a::after {
-    transform: rotate(180deg);
-  }
-
-  .sidebar.active {
-    height: auto;
-    overflow-y: auto;
-  }
-
-  .content {
-    width: 100% !important;
-    margin-left: 0 !important;
-    padding: 10px !important;
-  }
-
-  .tag-cloud {
-    max-height: 100px;
-    overflow-y: auto;
-  }
-
-  .tags {
-    gap: 5px;
-  }
-  
-  .masonry {
-    columns: 1 !important;
-    padding: 0 5px !important;
-  }
-
-  .masonry-item img {
-    max-height: 70vh;
-  }
-}
 
 
 .masonry-item[style*="display: none"] {
@@ -481,6 +426,27 @@
   margin: 15px auto;
 }
 
+.masonry-item img.fullscreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1001;
+  max-width: 90%;
+  max-height: 90vh;
+  cursor: zoom-out;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 1000;
+}
 
 .email-text {
   order: 3; 
@@ -490,4 +456,31 @@
   font-size: 15px;
   color: #455e7a;
   font-weight: bold !important;
+}
+
+
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 10px !important;
+  }
+
+  .masonry {
+    columns: 1 !important;
+    padding: 0;
+  }
+
+  .masonry-item {
+    min-width: 100%;
+    max-width: 100%;
+    margin: 5px 0;
+  }
+}
+
+/* iPad适配 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .masonry {
+    columns: 2 350px !important;
+  }
 }
