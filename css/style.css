@@ -348,6 +348,61 @@
     display: block;
   }
 
+/* 点击遮罩层关闭侧边栏 */
+@media (max-width: 768px) {
+  .sidebar.expanded::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 99;
+  }
+}
+
+  /* 菜单标题添加折叠图标 */
+  .menu > a::after {
+    content: "▼";
+    margin-left: 10px;
+    font-size: 14px;
+    transition: transform 0.3s;
+  }
+
+  .sidebar.expanded .menu > a::after {
+    transform: rotate(180deg);
+  }
+
+  .sidebar.active {
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .content {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding: 10px !important;
+  }
+
+  .tag-cloud {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+
+  .tags {
+    gap: 5px;
+  }
+  
+  .masonry {
+    columns: 1 !important;
+    padding: 0 5px !important;
+  }
+
+  .masonry-item img {
+    max-height: 70vh;
+  }
+}
 
 
 .masonry-item[style*="display: none"] {
@@ -426,27 +481,6 @@
   margin: 15px auto;
 }
 
-.masonry-item img.fullscreen {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1001;
-  max-width: 90%;
-  max-height: 90vh;
-  cursor: zoom-out;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-}
-
-.fullscreen-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.8);
-  z-index: 1000;
-}
 
 .email-text {
   order: 3; 
@@ -458,29 +492,143 @@
   font-weight: bold !important;
 }
 
+/* 修改电脑端标题样式 */
+.mobile-header span {
+  color: #455e7a !important; /* 蓝色 */
+  cursor: pointer;
+}
 
+/* 移除折叠按钮在电脑端的显示 */
+@media (min-width: 769px) {
+  .fold-btn { display: none !important; }
+  .sidebar { position: fixed; left: 0; }
+}
+
+/* 移动端侧边栏改为顶部header */
 @media (max-width: 768px) {
-  .content {
-    margin-left: 0 !important;
+  .sidebar {
+    position: relative !important;
     width: 100% !important;
-    padding: 10px !important;
+    height: auto !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 10px 15px !important;
   }
 
-  .masonry {
-    columns: 1 !important;
-    padding: 0;
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
   }
 
-  .masonry-item {
-    min-width: 100%;
-    max-width: 100%;
-    margin: 5px 0;
+  .foldable-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .foldable-content.active {
+    max-height: 1000px;
+  }
+
+  .fold-btn {
+    color: #455e7a;
+    font-size: 16px;
+    transition: transform 0.3s;
+  }
+
+  .fold-btn.active {
+    transform: rotate(180deg);
+  }
+
+  /* 内容区下移 */
+  .content {
+    margin-top: 20px !important;
   }
 }
 
-/* iPad适配 */
+/* 全屏查看样式 */
+.fullscreen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fullscreen-img {
+  max-width: 90%;
+  max-height: 90vh;
+  object-fit: contain;
+  cursor: zoom-out;
+}
+
+/* iPad保持桌面布局 */
 @media (min-width: 769px) and (max-width: 1024px) {
-  .masonry {
-    columns: 2 350px !important;
+  .sidebar { width: 20% !important; }
+  .content { width: 80% !important; }
+  .masonry { columns: 3 250px !important; }
+}
+
+/* style.css 修改移动端样式 */
+@media (max-width: 768px) {
+  /* 默认隐藏但保留布局 */
+  .foldable-content {
+    display: block !important;
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.3s ease-out;
   }
+
+  .foldable-content.active {
+    max-height: 1000px;
+    opacity: 1;
+  }
+  
+  /* 强制显示标签容器 */
+  .tags {
+    display: flex !important;
+    flex-wrap: wrap;
+  }
+}
+
+/* 标签激活状态 */
+.tag.active {
+  background: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* 移动端折叠优化 */
+@media (max-width: 768px) {
+  .foldable-content {
+    transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
+  }
+  
+  .tags {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+/* 优化点击反馈 */
+.tag {
+  transition: transform 0.2s ease-out;
+}
+.tag:active {
+  transform: scale(0.95);
+}
+
+/* 图片加载指示器 */
+.fullscreen-overlay::before {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.fullscreen-img.loaded + ::before {
+  display: none;
 }
