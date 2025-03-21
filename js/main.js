@@ -29,7 +29,19 @@ function initImageClick() {
 
 document.addEventListener('DOMContentLoaded', initImageClick);
 
-const perPage = 8; // 全局定义
+const perPage = 8;
+let currentTag = '';
+let currentPage = 1;
+
+function initMasonry() {
+  imagesLoaded('.masonry', () => {
+    window.masonryInstance = new Masonry('.masonry', {
+      itemSelector: '.masonry-item',
+      columnWidth: 300,
+      gutter: 20
+    });
+  });
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   const masonryElem = document.querySelector('.masonry');
@@ -79,11 +91,8 @@ function filterPhotosByTag(tag) {
   }, 300);
 }
 
-// main.js
 function renderPhotos(photos) {
   const masonry = document.querySelector('.masonry');
-  if (!masonry) return;
-
   masonry.innerHTML = photos.map(photo => `
     <div class="masonry-item">
       <img data-src="${photo.path}" 
@@ -92,50 +101,73 @@ function renderPhotos(photos) {
     </div>
   `).join('');
 
-  // 重新初始化懒加载
-  const observer = new IntersectionObserver((entries) => {
+  // 懒加载
+  const lazyImages = document.querySelectorAll('.lazy-load');
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const img = entry.target;
         img.src = img.dataset.src;
+        img.onload = () => {
+          if (window.masonryInstance) {
+            window.masonryInstance.reloadItems();
+            window.masonryInstance.layout();
+          }
+        };
         observer.unobserve(img);
       }
     });
   }, { rootMargin: '200px' });
 
-  document.querySelectorAll('.lazy-load').forEach(img => observer.observe(img));
+  lazyImages.forEach(img => observer.observe(img));
 }
+
+// 初始加载
+document.addEventListener('DOMContentLoaded', () => {
+  renderPhotos(window.allPhotos.slice(0, perPage));
+  renderPagination(window.allPhotos.length);
+  initMasonry();
+});
+
+
+function updatePagination(total) {
+  const pages = Math.ceil(total / perPage);
+  const pagination = document.querySelector('.pagination');
+  if (!pagination) {
+    console.error('Pagination container not found');
+    return;
+  }
+  pagination.innerHTML = Array.from({length: pages}, (_, i) => `
+    <a class="pagination-btn ${i+1 === currentPage ? 'active' : ''}" 
+       onclick="loadPage(${i+1})">${i+1}</a>
+  `).join('');
+}
+
 
 function renderPagination(total, tag = '') {
-
   const pages = Math.ceil(total / perPage);
+  
+  // 清空旧分页内容
+  const oldPagination = document.querySelector('.pagination');
+  if (oldPagination) oldPagination.remove();
 
-  let html = `
-
+  // 生成新分页
+  const html = `
     <div class="pagination">
-
-      <div class="pagination-info"></div>
-
       <div class="pagination-buttons">
-
+        ${Array.from({length: pages}, (_, i) => `
+          <a class="pagination-btn" 
+             onclick="loadPage(${i+1}, '${encodeURIComponent(tag)}')">
+            ${i+1}
+          </a>
+        `).join('')}
+      </div>
+    </div>
   `;
-
   
-
-  for (let i = 1; i <= pages; i++) {
-
-    html += `<a class="pagination-btn" onclick="loadPage(${i}, '${encodeURIComponent(tag)}')">${i}</a>`;
-
-  }
-
-  
-
-  html += `</div></div>`;
-
-  document.querySelector('.content').innerHTML += html;
-
+  // 插入到内容区底部
+  document.querySelector('.content').insertAdjacentHTML('beforeend', html);
 }
-
 
 function loadPage(page, tag) {
   
@@ -222,39 +254,37 @@ function initTags() {
   `).join('');
 }
 
-document.querySelector('.tags').addEventListener('click', function(e) {
-  // 精确匹配点击目标
-  const tag = e.target.closest('.tag[data-tag]');
+document.querySelector('.tags').addEventListener('click', e => {
+  const tag = e.target.closest('.tag');
+  if (!tag?.dataset?.tag) return;
+
+  // 移除所有标签激活状态
+  document.querySelectorAll('.tag.active').forEach(t => t.classList.remove('active'));
   
-  // 增强错误提示
-  if (!tag) {
-    console.warn('点击目标不是有效标签:', e.target);
-    return;
-  }
-  
-  // 获取标签数据
-  const tagValue = tag.dataset.tag;
-  if (!tagValue) {
-    console.error('标签数据异常:', tag.outerHTML);
-    return;
-  }
+  // 设置当前标签激活
+  tag.classList.add('active');
 
   // 执行筛选
-  filterPhotosByTag(tagValue);
-
-  // 状态管理优化
-  document.querySelectorAll('.tag').forEach(t => 
-    t.classList.toggle('active', t === tag)
-  );
-
-  // 布局更新（增加容错判断）
-  if (window.masonryInstance) {
-    setTimeout(() => {
-      masonryInstance.reloadItems();
-      masonryInstance.layout();
-    }, 500); // 延长延迟确保渲染完成
-  }
+  currentTag = tag.dataset.tag;
+  currentPage = 1;
+  const filtered = window.allPhotos.filter(p => p.tags.includes(currentTag));
+  renderPhotos(filtered.slice(0, perPage));
+  updatePagination(filtered.length);
 });
+
+window.loadPage = page => {
+  currentPage = page;
+  const start = (page - 1) * perPage;
+  const data = currentTag 
+    ? window.allPhotos.filter(p => p.tags.includes(currentTag))
+    : window.allPhotos;
+  
+  renderPhotos(data.slice(start, start + perPage));
+  updatePagination(data.length);
+  window.scrollTo(0, 0);
+}
+
+
 
 // 在main.js添加验证
 document.addEventListener('DOMContentLoaded', () => {
@@ -296,38 +326,3 @@ document.querySelector('.sidebar').addEventListener('click', function(e) {
 
 
 document.addEventListener('DOMContentLoaded', initImageClick);
-
-// 新增图片点击全屏功能初始化
-function initImageClick() {
-  document.body.addEventListener('click', function(e) {
-    const img = e.target.closest('.masonry-item img');
-    if (!img) return;
-
-    // 创建全屏容器
-    const overlay = document.createElement('div');
-    overlay.className = 'fullscreen-overlay';
-    
-    // 加载高清图
-    const fullImg = new Image();
-    fullImg.src = img.src;
-    fullImg.className = 'fullscreen-img';
-    
-    // 添加加载状态处理
-    fullImg.onload = () => {
-      overlay.appendChild(fullImg);
-      document.body.appendChild(overlay);
-    };
-
-    // 点击关闭
-    overlay.addEventListener('click', () => {
-      document.body.removeChild(overlay);
-    });
-  });
-}
-
-// 修改图片加载回调
-img.onload = () => {
-  img.parentElement.classList.add('visible'); // 新增
-  window.masonryInstance.reloadItems();
-  window.masonryInstance.layout();
-};

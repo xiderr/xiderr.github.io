@@ -189,6 +189,22 @@
   padding: 0 10px;        /* 两侧添加内边距 */ 
 }
 
+/* 精简后的关键CSS */
+.masonry-item { width: 300px; margin-bottom: 20px; transition: opacity 0.3s; }
+.lazy-load { opacity: 0; transition: opacity 0.3s; }
+.lazy-load[src] { opacity: 1; }
+.pagination { text-align: center; margin: 20px 0; }
+.pagination-btn { 
+  display: inline-block; 
+  padding: 8px 16px;
+  margin: 0 5px;
+  background: #f0f0f0;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.pagination-btn.active { background: #e087e3; color: white; }
+.tag.active { background: #e087e3; color: white; }
+
 .masonry-item {
   flex: 1 1 calc(30% - 50px); /* 基础宽度25%，允许压缩拉伸 */
   min-width: 200px; /* 最小宽度 */
